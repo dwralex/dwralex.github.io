@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Paunsaugunt Migration</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #info {
+            color: #444;
+            height: auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            font-size: 17px;
+            left: 50%;
+            top: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+            padding: 3px 10px 10px 10px;
+            position: absolute;
+            width: 600px;
+            z-index: 40;
+            border-radius: 9px;
+            background: rgba(211, 207, 207, 0.8);
+            text-align: center;
+        }
+
+        #close {
+            float: right;
+            margin: 1px 1px 1px 1px;
+            background: rgba(211, 207, 207, 0.1);
+            cursor: pointer;
+        }
+
+        #buttoninfo {
+            height: auto;
+            left: 4px;
+            top: 205px;
+            padding: 3px 10px 10px 10px;
+            position: absolute;
+            z-index: 40;
+
+        }
+    </style>
+    <link href="https://js.arcgis.com/4.8/esri/css/main.css" rel="stylesheet" type="text/css">
+    <script src="https://js.arcgis.com/4.8"></script>
+
+    <script>
+        require([
+            "dojo/dom-construct",
+            "esri/config",
+            "esri/layers/WebTileLayer",
+            "esri/Map",
+            "esri/Basemap",
+            "esri/widgets/BasemapToggle",
+            "esri/views/SceneView",
+            "esri/layers/FeatureLayer",
+            "dojo/domReady!"
+        ], function (domConstruct, esriConfig, WebTileLayer, Map,
+            Basemap, BasemapToggle, SceneView, FeatureLayer
+        ) {
+
+                // Push Regular Expression to allow all *.stamen.com servers. Alternatively,
+                // it can be added as a list of servers, e.g. push("stamen-tiles-a.a.ssl.fastly.net",
+                // "stamen-tiles-b.a.ssl.fastly.net", "stamen-tiles-c.a.ssl.fastly.net", "stamen-tiles-d.a.ssl.fastly.net")
+                esriConfig.request.corsEnabledServers.push(
+                    /^https?:\/\/.+\.a\.ssl\.fastly\.net(\/|$)/i);
+
+                // Create a WebTileLayer with a third-party cached service
+                var mapBaseLayer = new WebTileLayer({
+                    urlTemplate: "https://stamen-tiles-{subDomain}.a.ssl.fastly.net/terrain/{level}/{col}/{row}.png",
+                    subDomains: ["a", "b", "c", "d"],
+                    copyright: "Map tiles by <a href=\"http://stamen.com/\">Stamen Design</a>, " +
+                        "under <a href=\"http://creativecommons.org/licenses/by/3.0\">CC BY 3.0</a>. " +
+                        "Data by <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, " +
+                        "under <a href=\"http://creativecommons.org/licenses/by-sa/3.0\">CC BY SA</a>."
+                });
+                // Create a Basemap with the WebTileLayer. The thumbnailUrl will be used for
+                // the image in the BasemapToggle widget.
+                var stamen = new Basemap({
+                    baseLayers: [mapBaseLayer],
+                    title: "Terrain",
+                    id: "terrain",
+                    thumbnailUrl: "https://stamen-tiles.a.ssl.fastly.net/terrain/10/177/409.png"
+                });
+
+                var map = new Map({
+                    basemap: stamen,
+                    ground: "world-elevation"
+                });
+
+                var initCamera = {
+                    heading: 345,
+                    tilt: 70.9,
+                    position: {
+                        latitude: 36.041642,
+                        longitude: -111.916471,
+                        z: 7500
+                    }
+                };
+
+                var view = new SceneView({
+                    container: "viewDiv",
+                    map: map,
+                    camera: initCamera,
+                    qualityProfile: "high"
+                });
+
+
+                var logo = domConstruct.create("img", {
+                    src: "https://image.ibb.co/j5akdd/UMI_Logo_White_01.png",
+                    id: "logo",
+                    title: "logo",
+                    height: 60,
+
+                });
+
+                var legend = domConstruct.create("img", {
+                    src: "https://image.ibb.co/mbpRPJ/legendnew.png",
+                    id: "legend",
+                    title: "legend",
+                    height: 120,
+
+                });
+
+                view.when(function () {
+                    // Add a basemap toggle widget to toggle between basemaps
+                    var toggle = new BasemapToggle({
+                        titleVisible: true,
+                        view: view,
+                        nextBasemap: "satellite"
+                    });
+
+                    var crossing = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/0"
+                    });
+
+                    var southStop = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/2",
+                        popupTemplate: {
+                            title: "South Stop Over",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates: 11/19/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/krRAw8/South_Stop.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var southHigh = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/3",
+                        popupTemplate: {
+                            title: "South High Use",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates: 11/19/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/krRAw8/South_Stop.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var southLow = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/4",
+                        popupTemplate: {
+                            title: "South Low Use",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates: 11/19/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/krRAw8/South_Stop.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+
+                    var northWestStop = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/6",
+                        popupTemplate: {
+                            title: "Northwest Stopover",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates: 11/16/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/e6q63o/Northwest_Stopover.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var northWestHigh = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/7",
+                        popupTemplate: {
+                            title: "Northwest High Use",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates: 11/16/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/hHDyG8/Northwest_High.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var northWestMed = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/8",
+                        popupTemplate: {
+                            title: "Northwest Medium Use",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates:11/16/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/bxExb8/northwest_Med.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var northWestLowT = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/9",
+                        popupTemplate: {
+                            title: "Northwest Low Use 2 or More",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates:11/16/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/g4WSb8/Northwest_low_2.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var northWestLow = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/10",
+                        popupTemplate: {
+                            title: "Northwest Low Use",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates:11/16/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/g4WSb8/Northwest_low_2.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var northEastStop = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/12",
+                        popupTemplate: {
+                            title: "Northeast Stopover",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates:11/18/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/dLR79T/northeast_stop.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var northEastHigh = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/13",
+                        popupTemplate: {
+                            title: "Northeast High Use",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates:11/18/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/j2fjpT/northeast_high.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+
+                    var northEastMed = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/14",
+                        popupTemplate: {
+                            title: "Northeast Medium Use",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "Dates:11/17/2017 - Current",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/dC9Nb8/northeast_med.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var northEastlowT = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/15",
+                        popupTemplate: {
+                            title: "Northeast Low Use 2 or More",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "<b>Age Breakdown</b>",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/dC9Nb8/northeast_med.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+                    var northEastlow = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/16",
+                        popupTemplate: {
+                            title: "Northeast Low Use",
+                            content: [{
+
+                                type: "media",
+                                mediaInfos: [{
+                                    title: "<b>Age Breakdown</b>",
+                                    type: "image",
+                                    value: {
+                                        sourceURL: "https://image.ibb.co/jtr4Oo/northeast_low.png"
+                                    }
+                                }]
+                            }]
+                        }
+                    });
+
+
+
+                    map.add(crossing);
+                    map.add(southLow);
+                    map.add(southHigh);
+                    map.add(southStop);
+                    map.add(northWestLow);
+                    map.add(northWestLowT);
+                    map.add(northWestMed);
+                    map.add(northWestHigh);
+                    map.add(northWestStop);
+                    map.add(northEastlow);
+                    map.add(northEastlowT);
+                    map.add(northEastMed);
+                    map.add(northEastHigh);
+                    map.add(northEastStop);
+                    // Add widget to the top right corner of the view
+
+                    view.ui.add(logo, "top-right");
+                    view.ui.add(legend, "bottom-left");
+                    view.ui.add(toggle, "bottom-left");
+                });
+            });
+    </script>
+
+</head>
+
+<body>
+    <div id='buttoninfo'>
+        <a href="https://drive.google.com/uc?export=view&id=1z6y0iaXDhcezSVDPyNS3Zca0i6p6fmQp" download>
+            <img src="https://image.ibb.co/gdjDMy/download.png" alt="Download" style="width:34px; height:34px;border:0; color:#444;">
+        </a>
+    </div>
+    <div id="viewDiv">
+
+        <div id='info'>
+
+            <div id='close' onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;'>x</div>
+            <br>
+            <img src='https://image.ibb.co/joo81y/logo.png' align="top" style="height: 120px; display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;">
+            <div style="font-size: 20px;">
+                <p>Utah Wildlife Migration Initiative's Modeled Routes</p>
+            </div> This map was created using a Brownian Bridge Migration Model...We can add any information here
+            <br>
+
+        </div>
+
+
+    </div>
+
+
+
+</body>
+
+</html>
