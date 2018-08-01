@@ -208,9 +208,21 @@
                     });
 
                     var crossing = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/0"
-                    });
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/0",
+                        popupTemplate: {
+                            title: "Crossings",
+                            content: [{
+                                type: "fields",
+                                fieldInfos: [{
+                                    fieldName: "Name",
+                                visible: true,
+                                label: "Crossing Name"
+                                }]
+                            }]
+                        }
 
+                    });
+                    
                     var southStop = new FeatureLayer({
                         url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/2",
                         popupTemplate: {
