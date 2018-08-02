@@ -85,7 +85,7 @@
                     // factor. In this case terrain will render 100x the actual elevation
 
                     properties: {
-                        exaggeration: 2.8
+                        exaggeration: 3.5
                     },
 
                     // The load() method is called when the layer is added to the map
@@ -179,7 +179,8 @@
                     viewingMode: "global",
                     map: map,
                     camera: initCamera,
-                    qualityProfile: "high"
+                    qualityProfile: "high",
+
                 });
 
 
@@ -208,23 +209,23 @@
                     });
 
                     var crossing = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/0",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/0",
                         popupTemplate: {
                             title: "Crossings",
                             content: [{
                                 type: "fields",
                                 fieldInfos: [{
                                     fieldName: "Name",
-                                visible: true,
-                                label: "Crossing Name"
+                                    visible: true,
+                                    label: "Crossing Name"
                                 }]
                             }]
                         }
 
                     });
-                    
+
                     var southStop = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/2",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/3",
                         popupTemplate: {
                             title: "South Stop Over",
                             content: [{
@@ -242,7 +243,7 @@
                     });
 
                     var southHigh = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/3",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/4",
                         popupTemplate: {
                             title: "South High Use",
                             content: [{
@@ -260,7 +261,7 @@
                     });
 
                     var southLow = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/4",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/5",
                         popupTemplate: {
                             title: "South Low Use",
                             content: [{
@@ -279,7 +280,7 @@
 
 
                     var northWestStop = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/6",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/7",
                         popupTemplate: {
                             title: "Northwest Stopover",
                             content: [{
@@ -297,7 +298,7 @@
                     });
 
                     var northWestHigh = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/7",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/8",
                         popupTemplate: {
                             title: "Northwest High Use",
                             content: [{
@@ -315,7 +316,7 @@
                     });
 
                     var northWestMed = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/8",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/9",
                         popupTemplate: {
                             title: "Northwest Medium Use",
                             content: [{
@@ -333,7 +334,7 @@
                     });
 
                     var northWestLowT = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/9",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/10",
                         popupTemplate: {
                             title: "Northwest Low Use 2 or More",
                             content: [{
@@ -351,7 +352,7 @@
                     });
 
                     var northWestLow = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/10",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/11",
                         popupTemplate: {
                             title: "Northwest Low Use",
                             content: [{
@@ -369,7 +370,7 @@
                     });
 
                     var northEastStop = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/12",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/13",
                         popupTemplate: {
                             title: "Northeast Stopover",
                             content: [{
@@ -387,7 +388,7 @@
                     });
 
                     var northEastHigh = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/13",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/14",
                         popupTemplate: {
                             title: "Northeast High Use",
                             content: [{
@@ -406,7 +407,7 @@
 
 
                     var northEastMed = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/14",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/15",
                         popupTemplate: {
                             title: "Northeast Medium Use",
                             content: [{
@@ -424,7 +425,7 @@
                     });
 
                     var northEastlowT = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/15",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/16",
                         popupTemplate: {
                             title: "Northeast Low Use 2 or More",
                             content: [{
@@ -442,7 +443,7 @@
                     });
 
                     var northEastlow = new FeatureLayer({
-                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Map/FeatureServer/16",
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/17",
                         popupTemplate: {
                             title: "Northeast Low Use",
                             content: [{
@@ -459,7 +460,40 @@
                         }
                     });
 
-
+                    var roads = new FeatureLayer({
+                        url: "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/road/FeatureServer/1",
+                        popupTemplate: {
+                            title: "Road",
+                            content: [{
+                                type: "fields",
+                                fieldInfos: [{
+                                    fieldName: "STREETNAME",
+                                    visible: true,
+                                    label: "Street Name"
+                                },{
+                                    fieldName: "ALIAS1",
+                                    visible: true,
+                                    label: "Street Name Alias"
+                                },{
+                                    fieldName: "ZIPLEFT",
+                                    visible: true,
+                                    label: "Zip Code"
+                                },{
+                                    fieldName: "SPEED",
+                                    visible: true,
+                                    label: "Speed Limit MPH"
+                                },{
+                                    fieldName: "SURFWIDTH",
+                                    visible: true,
+                                    label: "Width In Feet"
+                                },{
+                                    fieldName: "SURFTYPE",
+                                    visible: true,
+                                    label: "Surface Type"
+                                }]
+                            }]
+                        }
+                    });
 
                     map.add(crossing);
                     map.add(southLow);
@@ -475,6 +509,8 @@
                     map.add(northEastMed);
                     map.add(northEastHigh);
                     map.add(northEastStop);
+                    map.add(roads);
+                    
                     // Add widget to the top right corner of the view
 
                     view.ui.add(logo, "top-right");
