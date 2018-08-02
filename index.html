@@ -18,7 +18,7 @@
         }
 
         #info {
-            color: #444;
+            color: rgb(49, 49, 49);
             height: auto;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-weight: bold;
@@ -29,11 +29,12 @@
             transform: translate(-50%, -50%);
             padding: 3px 10px 10px 10px;
             position: absolute;
-            width: 600px;
+            width: 650px;
             z-index: 40;
-            border-radius: 9px;
-            background: rgba(211, 207, 207, 0.8);
+            background: rgba(243, 242, 242, 0.8);
             text-align: center;
+            border-style: solid;
+            border-color: #444;
         }
 
         #close {
@@ -193,10 +194,10 @@
                 });
 
                 var legend = domConstruct.create("img", {
-                    src: "https://image.ibb.co/mbpRPJ/legendnew.png",
+                    src: "https://image.ibb.co/duwOgK/legend.png",
                     id: "legend",
                     title: "legend",
-                    height: 120,
+                    height: 100,
 
                 });
 
@@ -470,23 +471,23 @@
                                     fieldName: "STREETNAME",
                                     visible: true,
                                     label: "Street Name"
-                                },{
+                                }, {
                                     fieldName: "ALIAS1",
                                     visible: true,
                                     label: "Street Name Alias"
-                                },{
+                                }, {
                                     fieldName: "ZIPLEFT",
                                     visible: true,
                                     label: "Zip Code"
-                                },{
+                                }, {
                                     fieldName: "SPEED",
                                     visible: true,
                                     label: "Speed Limit MPH"
-                                },{
+                                }, {
                                     fieldName: "SURFWIDTH",
                                     visible: true,
                                     label: "Width In Feet"
-                                },{
+                                }, {
                                     fieldName: "SURFTYPE",
                                     visible: true,
                                     label: "Surface Type"
@@ -510,7 +511,7 @@
                     map.add(northEastHigh);
                     map.add(northEastStop);
                     map.add(roads);
-                    
+
                     // Add widget to the top right corner of the view
 
                     view.ui.add(logo, "top-right");
@@ -524,7 +525,7 @@
 
 <body>
     <div id='buttoninfo'>
-        <a href="https://drive.google.com/uc?export=view&id=1q2qXnO2E5EN6AZuzboN8nUrF3MtezuQa" download>
+        <a href="https://drive.google.com/uc?export=view&id=1z6y0iaXDhcezSVDPyNS3Zca0i6p6fmQp" download>
             <img src="https://image.ibb.co/gdjDMy/download.png" alt="Download" style="width:34px; height:34px;border:0; color:#444;">
         </a>
     </div>
@@ -539,8 +540,14 @@
             margin-right: auto;
             margin-top: auto;">
             <div style="font-size: 20px;">
-                <p>Utah Wildlife Migration Initiative's Modeled Routes</p>
-            </div> This map was created using a Brownian Bridge Movement Model...We can add any information here
+                <p>
+                    <img src='https://image.ibb.co/e3ttWy/UMI_Logo_Black_01.png' style="display: block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: auto;">
+                </p>
+            </div>
+            <h2>Paunsaugunt mule deer movement model</h2>
             <br>
 
         </div>
